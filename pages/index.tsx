@@ -4,9 +4,7 @@ import Main from './main'
 
 const Home: NextPage = () => {
   return (
-    <Layout>
-      <Main />
-    </Layout>
+    <Main />
   )
 }
 
