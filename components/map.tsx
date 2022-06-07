@@ -1,17 +1,9 @@
 import { LatLngExpression } from 'leaflet';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css'
-import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
-import "leaflet-defaulticon-compatibility";
 
 const Map = () => {
-
-    const parseParamInt = (p: string | string[]): number =>
-        parseInt(Array.isArray(p) ? p[0] : p, 10);
-    const parseParamFloat = (p: string | string[]): number =>
-        parseFloat(Array.isArray(p) ? p[0] : p);
-
-    const position: LatLngExpression = [30.4383, 84.2807];
+    const position: LatLngExpression = [30.4383, -84.2807];
     const ZOOM = 15;
 
     return (
@@ -25,6 +17,11 @@ const Map = () => {
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
+            <Marker position={position}>
+                <Popup>
+                    A pretty CSS3 popup. <br /> Easily customizable.
+                </Popup>
+            </Marker>
         </MapContainer>
     )
 }
