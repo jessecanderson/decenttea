@@ -1,9 +1,16 @@
+import { NextPage } from "next";
 import { LatLngExpression } from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css'
 
-const Map = () => {
-    const position: LatLngExpression = [30.4383, -84.2807];
+const Map: NextPage<{ lat: number, long: number }> = (props) => {
+    let position: LatLngExpression = [0, 0];
+    if (props.lat != null || props.long != null) {
+        position = [props.lat, props.long];
+    } else {
+        position = [30.4383, -84.2807];
+    }
+
     const ZOOM = 15;
 
     return (

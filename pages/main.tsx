@@ -14,10 +14,16 @@ const MapWithNoSSR = dynamic(
 
 
 const Main: NextPage = () => {
-    var position = [30.4383, -84.2807];
+    const [position, updatePosition] = useState({ lat: 30.4383, long: -84.2807 })
 
     const handleMapUpdates = (updateAddress: Address) => {
-        console.log(`Callback works with ${updateAddress.street}`)
+        if (updateAddress != null) {
+            console.log(`Callback works with ${updateAddress.street}`);
+            // updatePosition({ lat: 0, long: 0 });
+        } else {
+            console.log('Callback called with null');
+        }
+
     }
 
     return (
@@ -31,7 +37,7 @@ const Main: NextPage = () => {
                         <TeaSearch callback={handleMapUpdates} />
                     </div>
                     <div className={styles['leaflet-container']}>
-                        <MapWithNoSSR />
+                        <MapWithNoSSR lat={position.lat} long={position.long} />
                     </div>
                 </div>
             </div>

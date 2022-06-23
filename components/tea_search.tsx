@@ -9,8 +9,8 @@ var startingAddress: Address = {
     zip: 0
 }
 
-const TeaSearch: NextPage<{ callback: (updateAddress: Address) => void }> = (callback) => {
-    const [address, setValues] = useState(startingAddress);
+const TeaSearch: NextPage<{ callback: (updateAddress: Address) => void }> = (props) => {
+    const [address, setAddress] = useState(startingAddress);
 
 
     const handleAddressInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,22 +19,22 @@ const TeaSearch: NextPage<{ callback: (updateAddress: Address) => void }> = (cal
 
         switch (event.target.name) {
             case "street":
-                setValues((values) => ({
+                setAddress((values) => ({
                     ...values,
                     street: event?.target.value,
                 }));
             case "city":
-                setValues((values) => ({
+                setAddress((values) => ({
                     ...values,
                     city: event?.target.value,
                 }));
             case "state":
-                setValues((values) => ({
+                setAddress((values) => ({
                     ...values,
                     state: event?.target.value,
                 }));
             case "zip":
-                setValues((values) => ({
+                setAddress((values) => ({
                     ...values,
                     zip: +event?.target.value,
                 }));
@@ -42,8 +42,8 @@ const TeaSearch: NextPage<{ callback: (updateAddress: Address) => void }> = (cal
     }
 
     useEffect(() => {
-        callback.callback(address);
-    }, [callback, address]);
+        props.callback(address);
+    }, [props, address]);
 
     return (
         <div className="shadow p-2">
