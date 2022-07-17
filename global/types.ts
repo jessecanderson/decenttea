@@ -1,7 +1,8 @@
 import { type } from 'os';
 
 type Address = {
-    street: string;
+    streetOne: string;
+    streetTwo: string;
     city: string;
     state: string;
     zip: number;

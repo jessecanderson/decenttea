@@ -3,13 +3,14 @@ import React, { useState, useEffect } from "react";
 import Address from "../global/types";
 
 var startingAddress: Address = {
-    street: '',
+    streetOne: '',
+    streetTwo: '',
     city: '',
     state: '',
     zip: 0
 }
 
-const TeaSearch: NextPage<{ callback: (updateAddress: Address) => void }> = (props) => {
+const TeaSearch: NextPage<{}> = (props) => {
     const [address, setAddress] = useState(startingAddress);
 
 
@@ -18,10 +19,15 @@ const TeaSearch: NextPage<{ callback: (updateAddress: Address) => void }> = (pro
         console.log(event.target);
 
         switch (event.target.name) {
-            case "street":
+            case "streetOne":
                 setAddress((values) => ({
                     ...values,
-                    street: event?.target.value,
+                    streetOne: event?.target.value,
+                }));
+            case "streetTwo":
+                setAddress((values) => ({
+                    ...values,
+                    streetTwo: event?.target.value,
                 }));
             case "city":
                 setAddress((values) => ({
@@ -42,16 +48,20 @@ const TeaSearch: NextPage<{ callback: (updateAddress: Address) => void }> = (pro
     }
 
     useEffect(() => {
-        props.callback(address);
-    }, [props, address]);
+
+    }, [address]);
 
     return (
         <div className="shadow p-2">
             <h2 className="font-bold py-2">Search for tea near you.</h2>
-            <form>
+            <form className="grid grid-cols-2 gap-2">
                 <label className="block p-1 text-sm font-medium text-slate-700">
-                    <span className="px-2">Street Address</span>
-                    <input type="text" name="street" value={address.street} onChange={handleAddressInputChange} className="px-2 border-2 rounded" />
+                    <span className="px-2">Street Address Line 1</span>
+                    <input type="text" name="streetOne" value={address.streetOne} onChange={handleAddressInputChange} className="px-2 border-2 rounded" />
+                </label>
+                <label className="block p-1 text-sm font-medium text-slate-700">
+                    <span className="px-2">Street Address Line 2</span>
+                    <input type="text" name="streetTwo" value={address.streetTwo} onChange={handleAddressInputChange} className="px-2 border-2 rounded" />
                 </label>
                 <label className="block p-1 text-sm font-medium text-slate-700">
                     <span className="px-2">City</span>
@@ -65,7 +75,7 @@ const TeaSearch: NextPage<{ callback: (updateAddress: Address) => void }> = (pro
                     <span className="px-2">Zip</span>
                     <input type="text" name="zip" value={`${address.zip}`} onChange={handleAddressInputChange} className="px-2 border-2 rounded" />
                 </label>
-                <div className="flex justify-end">
+                <div className="flex justify-center">
                     <input type="submit" value="Search" />
                 </div>
             </form>

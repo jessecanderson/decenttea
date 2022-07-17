@@ -1,10 +1,13 @@
 import { NextPage } from "next";
-import { LatLngExpression } from 'leaflet';
+import { useContext } from "react";
+import * as L from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css'
+// import { AddressContext } from "../context/addressprovider";
+
 
 const Map: NextPage<{ lat: number, long: number }> = (props) => {
-    let position: LatLngExpression = [0, 0];
+    let position: L.LatLngExpression = [0, 0];
     if (props.lat != null || props.long != null) {
         position = [props.lat, props.long];
     } else {
@@ -12,6 +15,7 @@ const Map: NextPage<{ lat: number, long: number }> = (props) => {
     }
 
     const ZOOM = 15;
+    const size = 20;
 
     return (
         <MapContainer
@@ -24,7 +28,13 @@ const Map: NextPage<{ lat: number, long: number }> = (props) => {
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={position}>
+            <Marker position={position}
+                icon={L.divIcon({
+                    iconSize: [size, size],
+                    iconAnchor: [size / 2, size + 9],
+                    className: "mymarker",
+                    html: "🫖",
+                })}>
                 <Popup>
                     A pretty CSS3 popup. <br /> Easily customizable.
                 </Popup>
