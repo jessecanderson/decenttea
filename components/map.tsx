@@ -31,7 +31,7 @@ const Map: NextPage<{ lat: number, long: number }> = (props) => {
             <Marker position={position}
                 icon={L.divIcon({
                     iconSize: [size, size],
-                    iconAnchor: [size / 2, size + 9],
+                    // iconAnchor: [size / 2, size + 9],
                     className: "mymarker",
                     html: "🫖",
                 })}>

@@ -16,6 +16,8 @@ const MapWithNoSSR = dynamic(
 const Main: NextPage = () => {
     const [position, updatePosition] = useState({ lat: 30.4383, long: -84.2807 })
 
+    const results = false;
+
     return (
         <Layout>
             <div className="p-8">
@@ -24,7 +26,7 @@ const Main: NextPage = () => {
                 </div>
                 <div className='flex justify-evenly items-stretch columns-2'>
                     <div className='content-center px-8'>
-                        <TeaSearch />
+                        {results ? <div>Result list is here.</div> : <TeaSearch />}
                     </div>
                     <div className={styles['leaflet-container']}>
                         <MapWithNoSSR lat={position.lat} long={position.long} />
