@@ -8,4 +8,12 @@ type Address = {
     zip: number;
 }
 
-export default Address;
+type Action = | { type: 'SET_ADDRESS'; payload: Address } | { type: 'DEL_ADDRESS'; payload: Address };
+
+type State = { 
+    data: Address;
+    isLoading: boolean;
+    error?: string;
+}
+
+export type {Address, Action, State};
