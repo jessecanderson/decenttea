@@ -1,8 +1,18 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
+type ResponseData = {
+  response: {
+    address: string,
+    geolocation: {
+      lat: string,
+      lng: string
+    }
+  }
+}
+
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<ResponseData>
 ) {
   const query = req.query;
   const { address } = query;
