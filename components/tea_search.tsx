@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+import useSWR from "swr";
 import React, { useState, useEffect } from "react";
 import { Address, Position } from "../global/types";
 
@@ -70,19 +71,16 @@ const TeaSearch: NextPage<Props> = (props) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
     const encodedAddress = encodeURI(
       `${address.streetOne}+${address.streetTwo},+${address.city},+${address.state},+${address.zip}`
     );
-    fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`
-    )
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response);
+    fetch(`/api/geocoding?address=${encodedAddress}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
         props.updatePosition(
-          response.results[0].geometry.location.lat,
-          response.results[0].geometry.location.lng
+          data.response.geolocation.lat,
+          data.response.geolocation.lng
         );
       });
   };
