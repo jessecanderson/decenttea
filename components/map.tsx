@@ -1,7 +1,7 @@
 import { NextPage } from "next";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import * as L from "leaflet";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 
@@ -16,6 +16,12 @@ const Map: NextPage<{ lat: number; long: number }> = (props) => {
   const ZOOM = 15;
   const size = 50;
 
+  function ChangeView() {
+    const map = useMap();
+    map.setView(position, ZOOM);
+    return null;
+  }
+
   return (
     <MapContainer
       center={position}
@@ -23,6 +29,7 @@ const Map: NextPage<{ lat: number; long: number }> = (props) => {
       scrollWheelZoom={true}
       style={{ height: "100%", width: "100%" }}
     >
+      <ChangeView />
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

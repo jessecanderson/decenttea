@@ -15,6 +15,7 @@
     "next": "^12.2.5",
     "react": "latest",
     "react-dom": "latest",
+    "react-geocode": "^0.2.3",
     "react-leaflet": "^4.0.1"
   },
   "devDependencies": {

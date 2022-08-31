@@ -8,6 +8,11 @@ type Address = {
     zip: number;
 }
 
+type Position = {
+    lat: number;
+    long: number;
+}
+
 type Action = | { type: 'SET_ADDRESS'; payload: Address } | { type: 'DEL_ADDRESS'; payload: Address };
 
 type State = { 
@@ -16,4 +21,4 @@ type State = {
     error?: string;
 }
 
-export type {Address, Action, State};
+export type {Address, Position,  Action, State};

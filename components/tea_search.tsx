@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import React, { useState, useEffect } from "react";
-import { Address, State, Action } from "../global/types";
+import { Address, Position } from "../global/types";
 
 var startingAddress: Address = {
   streetOne: "",
@@ -10,50 +10,82 @@ var startingAddress: Address = {
   zip: 0,
 };
 
-const TeaSearch: NextPage<{}> = () => {
+interface Props {
+  updatePosition: (lat: number, long: number) => void;
+}
+
+const TeaSearch: NextPage<Props> = (props) => {
   const [address, setAddress] = useState(startingAddress);
 
   const handleAddressInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    event.persist;
     console.log(event.target);
+    console.log(event.target.value);
 
     switch (event.target.name) {
       case "streetOne":
-        setAddress((values) => ({
-          ...values,
-          streetOne: event?.target.value,
-        }));
+        setAddress((preValues) => {
+          return {
+            ...preValues,
+            streetOne: event?.target.value,
+          };
+        });
+        break;
       case "streetTwo":
-        setAddress((values) => ({
-          ...values,
-          streetTwo: event?.target.value,
-        }));
+        setAddress((preValues) => {
+          return {
+            ...preValues,
+            streetTwo: event?.target.value,
+          };
+        });
+        break;
       case "city":
-        setAddress((values) => ({
-          ...values,
-          city: event?.target.value,
-        }));
+        setAddress((preValues) => {
+          return {
+            ...preValues,
+            city: event?.target.value,
+          };
+        });
+        break;
       case "state":
-        setAddress((values) => ({
-          ...values,
-          state: event?.target.value,
-        }));
+        setAddress((preValues) => {
+          return {
+            ...preValues,
+            state: event?.target.value,
+          };
+        });
+        break;
       case "zip":
-        setAddress((values) => ({
-          ...values,
-          zip: +event?.target.value,
-        }));
+        setAddress((preValues) => {
+          return {
+            ...preValues,
+            zip: +event?.target.value,
+          };
+        });
+        break;
     }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.persist;
-    console.log("handling the search button");
-  };
+    event.preventDefault();
 
-  useEffect(() => {}, [address]);
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
+    const encodedAddress = encodeURI(
+      `${address.streetOne}+${address.streetTwo},+${address.city},+${address.state}`
+    );
+    fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`
+    )
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+        props.updatePosition(
+          response.results[0].geometry.location.lat,
+          response.results[0].geometry.location.lng
+        );
+      });
+  };
 
   return (
     <div className="shadow p-2">
