@@ -72,7 +72,7 @@ const TeaSearch: NextPage<Props> = (props) => {
 
     const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
     const encodedAddress = encodeURI(
-      `${address.streetOne}+${address.streetTwo},+${address.city},+${address.state}`
+      `${address.streetOne}+${address.streetTwo},+${address.city},+${address.state},+${address.zip}`
     );
     fetch(
       `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`
