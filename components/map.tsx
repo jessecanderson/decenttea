@@ -5,13 +5,22 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 
-const Map: NextPage<{ lat: number; long: number }> = (props) => {
+interface Props {
+  lat: number;
+  long: number;
+}
+
+const Map: NextPage<Props> = (props) => {
   let position: L.LatLngExpression = [0, 0];
   if (props.lat != null || props.long != null) {
     position = [props.lat, props.long];
   } else {
     position = [30.4383, -84.2807];
   }
+
+  useEffect(() => {
+    console.log(position);
+  }, [position]);
 
   const ZOOM = 15;
   const size = 50;
