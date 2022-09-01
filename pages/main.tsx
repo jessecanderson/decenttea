@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Layout from "../components/layout";
 import styles from "../styles/main.module.css";
 import { useState } from "react";
-import { Address, State, Action, Position } from "../global/types";
+import { Address, State, Action, Position, Restaurant } from "../global/types";
 
 var startingAddress: Address = {
   streetOne: "",
@@ -18,11 +18,13 @@ const MapWithNoSSR = dynamic(() => import("../components/map"), { ssr: false });
 
 const Main: NextPage = () => {
   const [position, updatePosition] = useState({ lat: 0.0, long: 0.0 });
+  const [resturants, updateResturants] = useState<[Restaurant]>();
 
   const results = false;
 
   const handlePositionUpdate = (lat: number, long: number) => {
     updatePosition({ lat, long });
+    fetch(`/api/resturants?lat=${lat}&lng=${long}`);
   };
 
   return (
