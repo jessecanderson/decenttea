@@ -21,9 +21,6 @@ const TeaSearch: NextPage<Props> = (props) => {
   const handleAddressInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    console.log(event.target);
-    console.log(event.target.value);
-
     switch (event.target.name) {
       case "streetOne":
         setAddress((preValues) => {
@@ -77,7 +74,6 @@ const TeaSearch: NextPage<Props> = (props) => {
     fetch(`/api/geocoding?address=${encodedAddress}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         props.updatePosition(
           data.response.geolocation.lat,
           data.response.geolocation.lng
