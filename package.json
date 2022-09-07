@@ -13,6 +13,7 @@
     "leaflet-defaulticon-compatibility": "^0.1.1",
     "leaflet-geosearch": "^3.6.1",
     "next": "^12.2.5",
+    "pg": "^8.8.0",
     "react": "latest",
     "react-dom": "latest",
     "react-geocode": "^0.2.3",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@types/leaflet": "^1.7.11",
     "@types/node": "17.0.35",
+    "@types/pg": "^8.6.5",
     "@types/react": "18.0.9",
     "@types/react-dom": "18.0.5",
     "autoprefixer": "^10.4.8",
