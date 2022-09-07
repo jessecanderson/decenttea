@@ -5,12 +5,12 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import icon from "leaflet/dist/images/marker-icon.png";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
-import { Restaurant } from "../global/resturant";
+import { Restaurant } from "../global/restaurant";
 
 interface Props {
   lat: number;
   long: number;
-  resturants: [Restaurant];
+  restaurants: [Restaurant];
 }
 
 const Map: NextPage<Props> = (props) => {
@@ -24,12 +24,12 @@ const Map: NextPage<Props> = (props) => {
   const positionOne: L.LatLngExpression = [0, -1];
   const positionTwo: L.LatLngExpression = [0, 0];
 
-  console.log(props.resturants);
+  console.log(props.restaurants);
 
   const ZOOM = 15;
   const size = 50;
 
-  useEffect(() => {}, [props.resturants]);
+  useEffect(() => {}, [props.restaurants]);
 
   function ChangeView() {
     const map = useMap();
@@ -62,13 +62,13 @@ const Map: NextPage<Props> = (props) => {
           A pretty CSS3 popup. <br /> Easily customizable.
         </Popup>
       </Marker>
-      {props.resturants.map((resturant) => {
+      {props.restaurants.map((restaurant) => {
         return (
           <Marker
-            key={resturant.reference}
+            key={restaurant.reference}
             position={[
-              resturant.geometry.location.lat,
-              resturant.geometry.location.lng,
+              restaurant.geometry.location.lat,
+              restaurant.geometry.location.lng,
             ]}
             icon={L.divIcon({
               iconSize: [size, size],
@@ -78,7 +78,7 @@ const Map: NextPage<Props> = (props) => {
             })}
           >
             <Popup>
-              <div>{resturant.name}</div>
+              <div>{restaurant.name}</div>
             </Popup>
           </Marker>
         );

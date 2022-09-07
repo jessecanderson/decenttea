@@ -5,7 +5,7 @@ import Layout from "../components/layout";
 import styles from "../styles/main.module.css";
 import { useState } from "react";
 import { Address, State, Action, Position } from "../global/types";
-import { Restaurant } from "../global/resturant";
+import { Restaurant } from "../global/restaurant";
 
 var startingAddress: Address = {
   streetOne: "",
@@ -19,15 +19,15 @@ const MapWithNoSSR = dynamic(() => import("../components/map"), { ssr: false });
 
 const Main: NextPage = () => {
   const [position, updatePosition] = useState({ lat: 0.0, long: 0.0 });
-  const [resturants, updateResturants] = useState<[Restaurant]>([]);
+  const [restaurants, updateRestaurants] = useState<[Restaurant]>([]);
 
   const results = false;
 
   const handlePositionUpdate = async (lat: number, long: number) => {
     updatePosition({ lat, long });
-    const res = await fetch(`/api/resturants?lat=${lat}&lng=${long}`);
+    const res = await fetch(`/api/restaurants?lat=${lat}&lng=${long}`);
     const data = await res.json();
-    updateResturants(data);
+    updateRestaurants(data);
   };
 
   return (
@@ -50,7 +50,7 @@ const Main: NextPage = () => {
             <MapWithNoSSR
               lat={position.lat}
               long={position.long}
-              resturants={resturants}
+              restaurants={restaurants}
             />
           </div>
         </div>
