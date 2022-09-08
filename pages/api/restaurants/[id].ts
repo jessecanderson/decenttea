@@ -39,7 +39,7 @@ export default async function handler(
 async function getRequest(id: string) {
   try {
     const client = await pool.connect();
-    const query = `select * from "RestaurantSchema".restaurant where id=${id};`;
+    const query = `select * from restaurants where id=${id};`;
     const result = await client.query(query);
     console.log(result);
     client.release();
@@ -54,7 +54,7 @@ async function postRequset(id: string, name: string) {
   try {
     const client = await pool.connect();
     const decodedName = decodeURI(name);
-    const query = `INSERT INTO "RestaurantSchema".restaurant (id, name) VALUES ('${id}'::integer, '${decodedName}') returning id;`;
+    const query = `INSERT INTO restaurants (id, name) VALUES ('${id}'::integer, '${decodedName}') returning id;`;
     const result = await client.query(query);
     client.release();
     return result;
