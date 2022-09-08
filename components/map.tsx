@@ -62,7 +62,7 @@ const Map: NextPage<Props> = (props) => {
           A pretty CSS3 popup. <br /> Easily customizable.
         </Popup>
       </Marker>
-      {props.restaurants.map((restaurant) => {
+      {/* {props.restaurants.map((restaurant) => {
         return (
           <Marker
             key={restaurant.reference}
@@ -82,7 +82,7 @@ const Map: NextPage<Props> = (props) => {
             </Popup>
           </Marker>
         );
-      })}
+      })} */}
     </MapContainer>
   );
 };
