@@ -10,7 +10,7 @@ export default async function handler(
 
   try {
     const client = await pool.connect();
-    const query = 'select * from "RestaurantSchema".restaurant;';
+    const query = "select * from restaurants;";
     const result = await client.query(query);
     client.release();
     res.status(200).json({
