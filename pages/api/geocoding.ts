@@ -19,12 +19,13 @@ export default async function handler(
 
   const apiKey = process.env.GOOGLE_API_KEY;
 
+  // TODO: This was temp removed to stop pinging the Google API
+  // Need to add this back in at some point.
   // const response = await fetch(
   //   `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${apiKey}`
   // );
 
   // const data = await response.json();
-  // console.log(data);
   // const lat = data.results[0].geometry.location.lat;
   // const lng = data.results[0].geometry.location.lng;
 

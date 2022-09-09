@@ -1,7 +1,7 @@
 export interface Restaurant {
   id: number;
   name: string;
-  geometry: GeoLocation;
+  geolocation: GeoLocation;
   // business_status: string;
   // formatted_address: string;
   // geometry: Geometry;

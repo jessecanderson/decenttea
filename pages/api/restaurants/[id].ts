@@ -31,12 +31,13 @@ async function getRequest(id: number) {
       where: {
         id: id,
       },
+      include: {
+        geolocation: true,
+      },
     });
-    console.log(result);
     client.$disconnect();
     return result;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 }

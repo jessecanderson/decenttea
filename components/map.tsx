@@ -28,9 +28,8 @@ const Map: NextPage<Props> = (props) => {
   const size = 50;
 
   useEffect(() => {
-    console.log("_______");
-    console.log(props.restaurants);
-    console.log("_______");
+    // TODO: This is a hack to get the map to render correctly.
+    // Figure out why I did this and how to get it working better?
   }, [props.restaurants]);
 
   function ChangeView() {
@@ -68,7 +67,7 @@ const Map: NextPage<Props> = (props) => {
         return (
           <Marker
             key={restaurant.id}
-            position={[restaurant.geometry.lat, restaurant.geometry.lng]}
+            position={[restaurant.geolocation.lat, restaurant.geolocation.lng]}
             icon={L.divIcon({
               iconSize: [size, size],
               // iconAnchor: [size / 2, size + 9],

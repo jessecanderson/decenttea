@@ -8,8 +8,17 @@ datasource db {
 }
 
 model restaurants {
-  id   Int     @id @default(autoincrement())
-  name String?
+  id          Int          @id @default(autoincrement())
+  name        String?
+  geolocation GeoLocation?
+}
+
+model GeoLocation {
+  id           Int         @id @default(autoincrement())
+  lat          Float
+  lng          Float
+  restaurant   restaurants @relation(fields: [restaurantId], references: [id])
+  restaurantId Int         @unique
 }
 
 model Account {

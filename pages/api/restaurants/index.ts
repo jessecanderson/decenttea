@@ -46,7 +46,11 @@ export default async function handler(
     const { lat, lng } = query;
     try {
       const client = new PrismaClient();
-      const result = await client.restaurants.findMany();
+      const result = await client.restaurants.findMany({
+        include: {
+          geolocation: true,
+        },
+      });
       client.$disconnect();
       res.status(200).json({
         response: {
@@ -67,13 +71,19 @@ export default async function handler(
       const client = new PrismaClient();
       const decodedName = decodeURI(name as string);
 
-      console.log(`${lat}, ${lng}`);
       const result = await client.restaurants.create({
         data: {
           name: decodedName,
+          geolocation: {
+            create: {
+              lat: Number(lat),
+              lng: Number(lng),
+            },
+          },
         },
       });
       client.$disconnect;
+
       return result;
     } catch (error) {
       throw error;
