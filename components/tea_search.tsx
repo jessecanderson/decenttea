@@ -65,20 +65,15 @@ const TeaSearch: NextPage<Props> = (props) => {
     }
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const encodedAddress = encodeURI(
       `${address.streetOne}+${address.streetTwo},+${address.city},+${address.state},+${address.zip}`
     );
-    fetch(`/api/geocoding?address=${encodedAddress}`)
-      .then((res) => res.json())
-      .then((data) => {
-        props.updatePosition(
-          data.response.geolocation.lat,
-          data.response.geolocation.lng
-        );
-      });
+    const response = await fetch(`/api/geocoding?address=${encodedAddress}`);
+    const data = await response.json();
+    props.updatePosition(data.lat, data.long);
   };
 
   return (
