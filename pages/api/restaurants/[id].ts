@@ -19,9 +19,8 @@ export default async function handler(
       } catch (error) {
         res.status(500).json({ response: `${error}` });
       }
+      break;
   }
-
-  //   res.status(200).json({ response: "success" });
 }
 
 async function getRequest(id: number) {
@@ -33,6 +32,7 @@ async function getRequest(id: number) {
       },
       include: {
         geolocation: true,
+        reviews: true,
       },
     });
     client.$disconnect();
