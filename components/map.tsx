@@ -10,7 +10,7 @@ import { Restaurant } from "../global/restaurant";
 interface Props {
   lat: number;
   long: number;
-  restaurants: [Restaurant];
+  restaurants: Restaurant[];
 }
 
 const Map: NextPage<Props> = (props) => {
@@ -24,12 +24,14 @@ const Map: NextPage<Props> = (props) => {
   const positionOne: L.LatLngExpression = [0, -1];
   const positionTwo: L.LatLngExpression = [0, 0];
 
-  console.log(props.restaurants);
-
   const ZOOM = 15;
   const size = 50;
 
-  useEffect(() => {}, [props.restaurants]);
+  useEffect(() => {
+    console.log("_______");
+    console.log(props.restaurants);
+    console.log("_______");
+  }, [props.restaurants]);
 
   function ChangeView() {
     const map = useMap();
@@ -62,14 +64,11 @@ const Map: NextPage<Props> = (props) => {
           A pretty CSS3 popup. <br /> Easily customizable.
         </Popup>
       </Marker>
-      {/* {props.restaurants.map((restaurant) => {
+      {props.restaurants.map((restaurant) => {
         return (
           <Marker
-            key={restaurant.reference}
-            position={[
-              restaurant.geometry.location.lat,
-              restaurant.geometry.location.lng,
-            ]}
+            key={restaurant.id}
+            position={[restaurant.geometry.lat, restaurant.geometry.lng]}
             icon={L.divIcon({
               iconSize: [size, size],
               // iconAnchor: [size / 2, size + 9],
@@ -82,7 +81,7 @@ const Map: NextPage<Props> = (props) => {
             </Popup>
           </Marker>
         );
-      })} */}
+      })}
     </MapContainer>
   );
 };

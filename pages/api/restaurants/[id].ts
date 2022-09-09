@@ -1,12 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import pool from "../../../lib/db";
+import { PrismaClient } from "@prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const {
-    query: { id, name },
+    query: { id, name, lat, lng },
     method,
   } = req;
 
@@ -14,15 +14,20 @@ export default async function handler(
     // Get current restaurant by ID
     case "GET":
       try {
-        const result = await getRequest(`${id}`);
-        res.status(200).json({ response: result.rows });
+        const result = await getRequest(Number(id));
+        res.status(200).json({ response: result });
       } catch (error) {
         res.status(500).json({ response: `${error}` });
       }
     // Create new Restaurant with ID
     case "POST":
       try {
-        const result = await postRequset(`${id}`, `${name}`);
+        const result = await postRequset(
+          `${id}`,
+          `${name}`,
+          `${lat}`,
+          `${lng}`
+        );
         res.status(200).json({
           response: {
             restaurant: result.fields,
@@ -36,13 +41,16 @@ export default async function handler(
   //   res.status(200).json({ response: "success" });
 }
 
-async function getRequest(id: string) {
+async function getRequest(id: number) {
   try {
-    const client = await pool.connect();
-    const query = `select * from restaurants where id=${id};`;
-    const result = await client.query(query);
+    const client = new PrismaClient();
+    const result = await client.restaurants.findUnique({
+      where: {
+        id: id,
+      },
+    });
     console.log(result);
-    client.release();
+    client.$disconnect();
     return result;
   } catch (error) {
     console.log(error);
@@ -50,13 +58,19 @@ async function getRequest(id: string) {
   }
 }
 
-async function postRequset(id: string, name: string) {
+async function postRequset(id: string, name: string, lat: string, lng: string) {
   try {
-    const client = await pool.connect();
+    const client = new PrismaClient();
     const decodedName = decodeURI(name);
-    const query = `INSERT INTO restaurants (id, name) VALUES ('${id}'::integer, '${decodedName}') returning id;`;
-    const result = await client.query(query);
-    client.release();
+
+    console.log(`${lat}, ${lng}`);
+    const result = await client.restaurants.create({
+      data: {
+        id: Number(id),
+        name: decodedName,
+      },
+    });
+    client.$disconnect;
     return result;
   } catch (error) {
     throw error;

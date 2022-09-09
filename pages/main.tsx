@@ -19,7 +19,7 @@ const MapWithNoSSR = dynamic(() => import("../components/map"), { ssr: false });
 
 const Main: NextPage = () => {
   const [position, updatePosition] = useState({ lat: 0.0, long: 0.0 });
-  const [restaurants, updateRestaurants] = useState<[Restaurant]>([]);
+  const [restaurants, updateRestaurants] = useState<Restaurant[]>([]);
 
   const results = false;
 
@@ -27,7 +27,7 @@ const Main: NextPage = () => {
     updatePosition({ lat, long });
     const res = await fetch(`/api/restaurants?lat=${lat}&lng=${long}`);
     const data = await res.json();
-    updateRestaurants(data);
+    updateRestaurants(data.response.restaurants);
   };
 
   return (

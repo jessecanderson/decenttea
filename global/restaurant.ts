@@ -1,20 +1,23 @@
 export interface Restaurant {
-  business_status: string;
-  formatted_address: string;
-  geometry: Geometry;
-  icon: string;
-  icon_background_color: string;
-  icon_mask_base_uri: string;
+  id: number;
   name: string;
-  opening_hours: OpeningHours;
-  photos: Photo[];
-  place_id: string;
-  plus_code: PlusCode;
-  price_level: number;
-  rating: number;
-  reference: string;
-  types: string[];
-  user_ratings_total: number;
+  geometry: GeoLocation;
+  // business_status: string;
+  // formatted_address: string;
+  // geometry: Geometry;
+  // icon: string;
+  // icon_background_color: string;
+  // icon_mask_base_uri: string;
+  // name: string;
+  // opening_hours: OpeningHours;
+  // photos: Photo[];
+  // place_id: string;
+  // plus_code: PlusCode;
+  // price_level: number;
+  // rating: number;
+  // reference: string;
+  // types: string[];
+  // user_ratings_total: number;
 }
 
 export interface Geometry {
@@ -22,10 +25,10 @@ export interface Geometry {
   viewport: Viewport;
 }
 
-export interface Location {
+export type GeoLocation = {
   lat: number;
   lng: number;
-}
+};
 
 export interface Viewport {
   northeast: Location;

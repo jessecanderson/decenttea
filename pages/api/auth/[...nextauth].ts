@@ -4,18 +4,10 @@ import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import EmailProvider from "next-auth/providers/email";
-import PostgresAdapter from "../../../lib/adapter";
-import { Pool } from "pg";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { PrismaClient } from "@prisma/client";
 
-const pool = new Pool({
-  max: 20,
-  user: process.env.PGSQL_USER,
-  password: process.env.PGSQL_PASSWORD,
-  host: process.env.PGSQL_HOST,
-  port: 5432,
-  database: process.env.PGSQL_DATABASE,
-  idleTimeoutMillis: 30000,
-});
+const prisma = new PrismaClient();
 
 export default NextAuth({
   providers: [
@@ -40,7 +32,7 @@ export default NextAuth({
       scope: "read:user",
     }),
   ],
-  adapter: PostgresAdapter(pool),
+  adapter: PrismaAdapter(prisma),
   session: {
     // Use JSON Web Tokens for session instead of database sessions.
     // This option can be used with or without a database for users/accounts.
