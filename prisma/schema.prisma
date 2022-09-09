@@ -12,6 +12,8 @@ model restaurants {
   name        String?
   geolocation GeoLocation?
   reviews     Reviews[]
+  List        List?        @relation(fields: [listId], references: [id])
+  listId      Int?
 }
 
 model GeoLocation {
@@ -68,6 +70,15 @@ model User {
   accounts      Account[]
   sessions      Session[]
   reviews       Reviews[]
+  List          List[]
+}
+
+model List {
+  id          Int           @id @default(autoincrement())
+  name        String
+  restaurants restaurants[]
+  user        User          @relation(fields: [userId], references: [id])
+  userId      String
 }
 
 model VerificationToken {
