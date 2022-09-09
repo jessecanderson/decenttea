@@ -14,6 +14,7 @@ export default async function handler(
       } catch (error) {
         res.status(500).json({ response: `${error}` });
       }
+      break;
     // Create new Restaurant with ID
     case "POST":
       try {
@@ -26,7 +27,7 @@ export default async function handler(
       } catch (error) {
         res.status(500).json({ response: `${error}` });
       }
-
+      break;
     // const apiKey = process.env.GOOGLE_API_KEY;
 
     // const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=restaurants&location=${lat},${lng}&radius=2000&region=us&type=restaurant&key=${apiKey}`;

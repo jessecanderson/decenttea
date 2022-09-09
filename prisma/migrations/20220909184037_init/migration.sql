@@ -17,6 +17,17 @@ CREATE TABLE "GeoLocation" (
 );
 
 -- CreateTable
+CREATE TABLE "Reviews" (
+    "id" SERIAL NOT NULL,
+    "restaurantId" INTEGER NOT NULL,
+    "userId" TEXT NOT NULL,
+    "rating" INTEGER NOT NULL,
+    "comment" TEXT,
+
+    CONSTRAINT "Reviews_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Account" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
@@ -82,6 +93,12 @@ CREATE UNIQUE INDEX "VerificationToken_identifier_token_key" ON "VerificationTok
 
 -- AddForeignKey
 ALTER TABLE "GeoLocation" ADD CONSTRAINT "GeoLocation_restaurantId_fkey" FOREIGN KEY ("restaurantId") REFERENCES "restaurants"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Reviews" ADD CONSTRAINT "Reviews_restaurantId_fkey" FOREIGN KEY ("restaurantId") REFERENCES "restaurants"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Reviews" ADD CONSTRAINT "Reviews_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

@@ -11,6 +11,7 @@ model restaurants {
   id          Int          @id @default(autoincrement())
   name        String?
   geolocation GeoLocation?
+  reviews     Reviews[]
 }
 
 model GeoLocation {
@@ -19,6 +20,16 @@ model GeoLocation {
   lng          Float
   restaurant   restaurants @relation(fields: [restaurantId], references: [id])
   restaurantId Int         @unique
+}
+
+model Reviews {
+  id           Int         @id @default(autoincrement())
+  restaurant   restaurants @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  restaurantId Int
+  user         User        @relation(fields: [userId], references: [id])
+  userId       String
+  rating       Int
+  comment      String?
 }
 
 model Account {
@@ -56,6 +67,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  reviews       Reviews[]
 }
 
 model VerificationToken {
