@@ -5,9 +5,18 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { id } = req.query;
+  const { id, userId } = req.query;
 
-  res.status(200).json({
-    response: "success",
-  });
+  console.log(`list id = ${id}, user id = ${userId}`);
+
+  switch (req.method) {
+    case "GET":
+      res.status(200).json({ response: "success" });
+      break;
+    case "PUT":
+      res.status(200).json({ response: "adding to list" });
+      break;
+    default:
+      res.status(405).json({ response: "Method not allowed" });
+  }
 }

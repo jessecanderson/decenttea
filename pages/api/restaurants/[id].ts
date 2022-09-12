@@ -33,6 +33,7 @@ async function getRequest(id: number) {
       include: {
         geolocation: true,
         reviews: true,
+        List: true,
       },
     });
     client.$disconnect();

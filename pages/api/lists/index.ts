@@ -1,13 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { List, PrismaClient } from "@prisma/client";
 
+interface CreateList {
+  name: string;
+  userId: string;
+  restaurantId: number;
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const { body } = req;
 
-  const listInfo: List = body;
+  const listInfo: CreateList = body;
 
   console.log(`${listInfo.userId}, ${listInfo.name}`);
 
@@ -19,8 +25,11 @@ export default async function handler(
   const result = await client.list.create({
     data: {
       name: listInfo.name,
-      user: {
-        connect: { id: listInfo.userId },
+      userId: listInfo.userId,
+      restaurants: {
+        connect: {
+          id: Number(listInfo.restaurantId),
+        },
       },
     },
   });

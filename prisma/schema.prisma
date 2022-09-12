@@ -7,31 +7,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model restaurants {
+model Restaurants {
   id          Int          @id @default(autoincrement())
   name        String?
   geolocation GeoLocation?
   reviews     Reviews[]
-  List        List?        @relation(fields: [listId], references: [id])
-  listId      Int?
+  List        List[]
+
+  @@map("restaurants")
 }
 
 model GeoLocation {
   id           Int         @id @default(autoincrement())
   lat          Float
   lng          Float
-  restaurant   restaurants @relation(fields: [restaurantId], references: [id])
+  restaurant   Restaurants @relation(fields: [restaurantId], references: [id])
   restaurantId Int         @unique
+
+  @@map("geo_location")
 }
 
 model Reviews {
   id           Int         @id @default(autoincrement())
-  restaurant   restaurants @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  restaurant   Restaurants @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
   restaurantId Int
   user         User        @relation(fields: [userId], references: [id])
   userId       String
   rating       Int
   comment      String?
+
+  @@map("reviews")
 }
 
 model Account {
@@ -51,6 +56,7 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@map("accounts")
 }
 
 model Session {
@@ -59,6 +65,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
 }
 
 model User {
@@ -70,15 +78,19 @@ model User {
   accounts      Account[]
   sessions      Session[]
   reviews       Reviews[]
-  List          List[]
+  lists         List?
+
+  @@map("users")
 }
 
 model List {
   id          Int           @id @default(autoincrement())
   name        String
-  restaurants restaurants[]
   user        User          @relation(fields: [userId], references: [id])
-  userId      String
+  userId      String        @unique
+  restaurants Restaurants[]
+
+  @@map("list")
 }
 
 model VerificationToken {
@@ -87,4 +99,5 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+  @@map("verification_tokens")
 }
