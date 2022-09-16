@@ -15,8 +15,12 @@ export default async function handler(
       res.status(200).json({ response: lists });
       break;
     case "PUT":
-      const result = await addToList();
-      res.status(200).json({ response: result });
+      const updatedList = await addToList();
+      res.status(200).json({ response: updatedList });
+      break;
+    case "DELETE":
+      const removedList = await removeFromList();
+      res.status(200).json({ response: removedList });
       break;
     default:
       res.status(405).json({ response: "Method not allowed" });
@@ -50,6 +54,28 @@ export default async function handler(
         data: {
           restaurants: {
             connect: {
+              id: Number(restaurantId),
+            },
+          },
+        },
+      });
+      client.$disconnect();
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async function removeFromList() {
+    try {
+      const client = new PrismaClient();
+      const result = await client.list.update({
+        where: {
+          id: Number(id),
+        },
+        data: {
+          restaurants: {
+            disconnect: {
               id: Number(restaurantId),
             },
           },
