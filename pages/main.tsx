@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import TeaSearch from "../components/tea_search";
 import dynamic from "next/dynamic";
-import Layout from "../components/layout";
+import Layout from "../app/layout";
 import styles from "../styles/main.module.css";
 import { useState } from "react";
 import { Address, State, Action, Position } from "../global/types";
