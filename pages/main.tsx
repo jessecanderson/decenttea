@@ -38,13 +38,15 @@ const Main: NextPage = () => {
             The best place to find <i>Decent</i> tea.
           </p>
         </div>
-        <div className="flex justify-evenly items-stretch columns-2">
-          <div className="content-center px-8">
-            {results ? (
-              <div>Result list is here.</div>
-            ) : (
-              <TeaSearch updatePosition={handlePositionUpdate} />
-            )}
+        <div className="flex justify-evenly items-stretch columns-2 gap-3">
+          <div className="justify-between">
+            <div className="content-center px-8">
+              {results ? (
+                <div>Result list is here.</div>
+              ) : (
+                <TeaSearch updatePosition={handlePositionUpdate} />
+              )}
+            </div>
           </div>
           <div className={styles["leaflet-container"]}>
             <MapWithNoSSR
