@@ -5,7 +5,7 @@ type Address = {
   streetTwo: string;
   city: string;
   state: string;
-  zip: number;
+  zip: string;
 };
 
 type Position = {

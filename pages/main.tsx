@@ -6,6 +6,7 @@ import styles from "../styles/main.module.css";
 import { useState } from "react";
 import { Address, State, Action, Position } from "../global/types";
 import { Restaurant } from "../global/restaurant";
+import AddRestaurant from "../components/add_restaurant";
 
 var startingAddress: Address = {
   streetOne: "",
@@ -39,7 +40,10 @@ const Main: NextPage = () => {
           </p>
         </div>
         <div className="flex justify-evenly items-stretch columns-2 gap-3">
-          <div className="justify-between">
+          <div className="justify-between relative">
+            <div className="absolute top-0 right-0">
+              <AddRestaurant />
+            </div>
             <div className="content-center px-8">
               {results ? (
                 <div>Result list is here.</div>
