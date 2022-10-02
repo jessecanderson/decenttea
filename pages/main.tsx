@@ -23,7 +23,7 @@ const MapWithNoSSR = dynamic(() => import("../components/map"), { ssr: false });
 const Main: NextPage = () => {
   const [position, updatePosition] = useState({ lat: 0.0, long: 0.0 });
   const [restaurants, updateRestaurants] = useState<Restaurant[]>([]);
-  const [showModal, updateShowModel] = useState(false);
+  const [hideSearch, udpateHideSearch] = useState(true);
 
   const results = false;
 
@@ -35,11 +35,11 @@ const Main: NextPage = () => {
   };
 
   const addClickHandler = () => {
-    updateShowModel(!showModal);
+    udpateHideSearch(!hideSearch);
   };
 
   const submitClickHandler = () => {
-    updateShowModel(!showModal);
+    udpateHideSearch(!hideSearch);
   };
 
   return (
@@ -50,34 +50,34 @@ const Main: NextPage = () => {
             The best place to find <i>Decent</i> tea.
           </p>
         </div>
-        <div className="flex justify-evenly items-stretch columns-2 gap-1">
-          <div className="justify-between relative">
-            <div className="absolute top-0 right-1">
-              {!showModal && (
+        {hideSearch ? (
+          <div className="flex justify-evenly items-stretch columns-2 gap-1">
+            <div className="justify-between relative">
+              <div className="absolute top-2 right-4">
                 <FontAwesomeIcon
                   size="lg"
                   className="cursor-pointer"
                   icon={faPlusCircle}
                   onClick={addClickHandler}
                 />
-              )}
-            </div>
-            <div className="content-center px-2">
-              {showModal ? (
-                <AddRestaurant callback={addClickHandler} />
-              ) : (
+              </div>
+              <div className="content-center px-2">
                 <TeaSearch updatePosition={handlePositionUpdate} />
-              )}
+              </div>
+            </div>
+            <div className={styles["leaflet-container"]}>
+              <MapWithNoSSR
+                lat={position.lat}
+                long={position.long}
+                restaurants={restaurants}
+              />
             </div>
           </div>
-          <div className={styles["leaflet-container"]}>
-            <MapWithNoSSR
-              lat={position.lat}
-              long={position.long}
-              restaurants={restaurants}
-            />
+        ) : (
+          <div className="flex flex-col items-center">
+            <AddRestaurant callback={addClickHandler} />
           </div>
-        </div>
+        )}
       </div>
     </Layout>
   );
