@@ -133,7 +133,7 @@ const TeaSearch: NextPage<Props> = (props) => {
                   className="px-2 border-2 rounded"
                 />
               </div>
-              <div className="flex justify-center border rounded-md m-4 cursor-pointer">
+              <div className="flex justify-center border rounded-md m-4 p-2 cursor-pointer">
                 <input
                   className="cursor-pointer"
                   type="submit"
