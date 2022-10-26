@@ -32,21 +32,24 @@ export default function Navbar() {
       </div>
       <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
         <div className="text-sm lg:flex-grow">
-          <Link href="/main">
-            <a className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-              Find Tea
-            </a>
+          <Link
+            className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
+            href="/main"
+          >
+            Find Tea
           </Link>
-          <Link href="/about">
-            <a className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-              About
-            </a>
+          <Link
+            className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
+            href="/about"
+          >
+            About
           </Link>
           {session && (
-            <Link href="/account_page">
-              <a className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-                Account
-              </a>
+            <Link
+              className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
+              href="/account_page"
+            >
+              Account
             </Link>
           )}
         </div>
