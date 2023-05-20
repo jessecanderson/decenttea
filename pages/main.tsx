@@ -7,14 +7,6 @@ import { useState } from "react";
 import { Address, State, Action, Position } from "../global/types";
 import { Restaurant } from "../global/restaurant";
 
-var startingAddress: Address = {
-  streetOne: "",
-  streetTwo: "",
-  city: "",
-  state: "",
-  zip: 0,
-};
-
 const MapWithNoSSR = dynamic(() => import("../components/map"), { ssr: false });
 
 const Main: NextPage = () => {
