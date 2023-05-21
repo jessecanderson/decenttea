@@ -35,7 +35,7 @@ async function getRequest() {
       },
     });
     client.$disconnect();
-    debugger;
+
     return NextResponse.json({
       response: {
         count: result.length,
