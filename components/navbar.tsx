@@ -1,10 +1,9 @@
 "use client";
 import Link from "next/link";
 import LoginButton from "./login_button";
-import { SessionProvider, useSession } from "next-auth/react";
+import { SessionProvider } from "next-auth/react";
 
 export default function Navbar() {
-  const { data: session } = useSession();
   return (
     <nav className="flex items-center justify-between flex-wrap bg-teal-500 p-6">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
@@ -45,19 +44,17 @@ export default function Navbar() {
           >
             About
           </Link>
-          {session && (
+          {/* {session && (
             <Link
               className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
               href="/account_page"
             >
               Account
             </Link>
-          )}
+          )} */}
         </div>
         <div>
-          <SessionProvider>
-            <LoginButton />
-          </SessionProvider>
+          <LoginButton />
         </div>
       </div>
     </nav>

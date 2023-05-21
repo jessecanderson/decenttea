@@ -19,7 +19,9 @@ const Main: NextPage = () => {
 
   const handlePositionUpdate = async (lat: number, long: number) => {
     updatePosition({ lat, long });
+    console.log(lat);
     const res = await fetch(`/api/restaurants?lat=${lat}&lng=${long}`);
+    console.log(res);
     const data = await res.json();
     updateRestaurants(data.response.restaurants);
   };

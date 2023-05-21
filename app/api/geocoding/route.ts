@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
 type ResponseData = {
   response: {
@@ -10,12 +10,9 @@ type ResponseData = {
   };
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
-) {
-  const query = req.query;
-  const { address } = query;
+export async function GET(req: NextRequest): Promise<NextResponse> {
+  const { searchParams } = req.nextUrl;
+  const address = searchParams.get("address");
 
   const apiKey = process.env.GOOGLE_API_KEY;
 
@@ -29,7 +26,7 @@ export default async function handler(
   // const lat = data.results[0].geometry.location.lat;
   // const lng = data.results[0].geometry.location.lng;
 
-  res.status(200).json({
+  return NextResponse.json({
     response: {
       address: `${address}`,
       geolocation: {
