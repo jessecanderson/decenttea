@@ -1,6 +1,7 @@
+"use client";
 import Link from "next/link";
 import LoginButton from "./login_button";
-import { useSession } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -34,7 +35,7 @@ export default function Navbar() {
         <div className="text-sm lg:flex-grow">
           <Link
             className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
-            href="/main"
+            href="/"
           >
             Find Tea
           </Link>
@@ -54,7 +55,9 @@ export default function Navbar() {
           )}
         </div>
         <div>
-          <LoginButton />
+          <SessionProvider>
+            <LoginButton />
+          </SessionProvider>
         </div>
       </div>
     </nav>

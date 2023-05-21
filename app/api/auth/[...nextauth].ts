@@ -1,3 +1,5 @@
+"use client";
+
 import NextAuth from "next-auth";
 import AppleProvider from "next-auth/providers/apple";
 import FacebookProvider from "next-auth/providers/facebook";
