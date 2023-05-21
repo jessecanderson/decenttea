@@ -1,13 +1,14 @@
 import { NextPage } from "next";
 import React, { useState, useEffect } from "react";
 import { Address, Position } from "../global/types";
+import Card from "./card";
 
 var startingAddress: Address = {
   streetOne: "",
   streetTwo: "",
   city: "",
   state: "",
-  zip: 0,
+  zip: "",
 };
 
 interface Props {
@@ -57,7 +58,7 @@ const TeaSearch: NextPage<Props> = ({ updatePosition }) => {
         setAddress((preValues) => {
           return {
             ...preValues,
-            zip: +event?.target.value,
+            zip: event?.target.value,
           };
         });
         break;
@@ -82,66 +83,74 @@ const TeaSearch: NextPage<Props> = ({ updatePosition }) => {
   };
 
   return (
-    <div className="shadow p-2">
-      <h2 className="font-bold py-2">Search for tea near you.</h2>
-      <form className="grid grid-cols-2 gap-2" onSubmit={handleSubmit}>
-        <label className="block p-1 text-sm font-medium text-slate-700">
-          <span className="px-2">Street Address Line 1</span>
-          <input
-            type="text"
-            name="streetOne"
-            value={address.streetOne}
-            onChange={handleAddressInputChange}
-            className="px-2 border-2 rounded"
-          />
-        </label>
-        <label className="block p-1 text-sm font-medium text-slate-700">
-          <span className="px-2">Street Address Line 2</span>
-          <input
-            type="text"
-            name="streetTwo"
-            value={address.streetTwo}
-            onChange={handleAddressInputChange}
-            className="px-2 border-2 rounded"
-          />
-        </label>
-        <label className="block p-1 text-sm font-medium text-slate-700">
-          <span className="px-2">City</span>
-          <input
-            type="text"
-            name="city"
-            value={address.city}
-            onChange={handleAddressInputChange}
-            className="px-2 border-2 rounded"
-          />
-        </label>
-        <label className="block p-1 text-sm font-medium text-slate-700">
-          <span className="px-2">State</span>
-          <input
-            type="text"
-            name="state"
-            value={address.state}
-            onChange={handleAddressInputChange}
-            className="px-2 border-2 rounded"
-          />
-        </label>
-        <label className="block p-1 text-sm font-medium text-slate-700">
-          <span className="px-2">Zip</span>
-          <input
-            type="text"
-            name="zip"
-            value={`${address.zip}`}
-            onChange={handleAddressInputChange}
-            className="px-2 border-2 rounded"
-          />
-        </label>
-        <div className="flex justify-center">
-          <button type="submit" value="Search">
-            Search
-          </button>
+    <Card>
+      <div className="flex flex-col w-fit">
+        <h2 className="font-bold py-2">Search for tea near you.</h2>
+        <div className="mb-4 grid grid-flow-col gap-4">
+          <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
+            <div className="flex flex-col">
+              <label>Street Address 1</label>
+              <input
+                type="text"
+                name="streetOne"
+                value={address.streetOne}
+                onChange={handleAddressInputChange}
+                className="w-full max-w-lg px-2 border-2 rounded"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label>Street Address 2</label>
+              <input
+                type="text"
+                name="streetTwo"
+                value={address.streetTwo}
+                onChange={handleAddressInputChange}
+                className="w-full max-w-lg px-2 border-2 rounded"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-end content-center gap-2">
+              <div className="flex flex-col">
+                <label>City</label>
+                <input
+                  type="text"
+                  name="city"
+                  value={address.city}
+                  onChange={handleAddressInputChange}
+                  className="px-2 border-2 rounded"
+                />
+              </div>
+              <div className="flex flex-col">
+                <label>State</label>
+                <input
+                  type="text"
+                  name="state"
+                  value={address.state}
+                  onChange={handleAddressInputChange}
+                  className="px-2 border-2 rounded"
+                />
+              </div>
+              <div className="flex flex-col">
+                <label>Zip</label>
+                <input
+                  type="text"
+                  name="zip"
+                  value={`${address.zip}`}
+                  onChange={handleAddressInputChange}
+                  className="px-2 border-2 rounded"
+                />
+              </div>
+              <div className="w-full border-2 rounded-md p-2 text-center cursor-pointer hover:text-white hover:bg-teal-500">
+                <input
+                  className="cursor-pointer"
+                  type="submit"
+                  value="Search"
+                />
+              </div>
+            </div>
+          </form>
         </div>
-      </form>
-    </div>
+      </div>
+    </Card>
   );
 };
 
