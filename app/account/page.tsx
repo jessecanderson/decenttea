@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import Layout from "../components/layout";
+import Layout from "../layout";
 import { useSession, signIn, signOut } from "next-auth/react";
 
 const LoginPage: NextPage = () => {

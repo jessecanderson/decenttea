@@ -1,5 +1,4 @@
 import { NextPage } from "next";
-import useSWR from "swr";
 import React, { useState, useEffect } from "react";
 import { Address, Position } from "../global/types";
 import Card from "./card";
@@ -16,7 +15,7 @@ interface Props {
   updatePosition: (lat: number, long: number) => void;
 }
 
-const TeaSearch: NextPage<Props> = (props) => {
+const TeaSearch: NextPage<Props> = ({ updatePosition }) => {
   const [address, setAddress] = useState(startingAddress);
 
   const handleAddressInputChange = (
@@ -69,12 +68,18 @@ const TeaSearch: NextPage<Props> = (props) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    console.log("button clicked");
+
     const encodedAddress = encodeURI(
       `${address.streetOne}+${address.streetTwo},+${address.city},+${address.state},+${address.zip}`
     );
     const response = await fetch(`/api/geocoding?address=${encodedAddress}`);
     const data = await response.json();
-    props.updatePosition(data.lat, data.long);
+    console.log(data);
+    updatePosition(
+      data.response.geolocation.lat,
+      data.response.geolocation.lng
+    );
   };
 
   return (

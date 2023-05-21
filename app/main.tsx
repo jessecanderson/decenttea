@@ -1,7 +1,9 @@
+"use client";
+
 import type { NextPage } from "next";
 import TeaSearch from "../components/tea_search";
 import dynamic from "next/dynamic";
-import Layout from "../components/layout";
+import Layout from "./layout";
 import styles from "../styles/main.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
@@ -9,14 +11,6 @@ import { useState } from "react";
 import { Address, State, Action, Position } from "../global/types";
 import { Restaurant } from "../global/restaurant";
 import AddRestaurant from "../components/add_restaurant";
-
-var startingAddress: Address = {
-  streetOne: "",
-  streetTwo: "",
-  city: "",
-  state: "",
-  zip: "",
-};
 
 const MapWithNoSSR = dynamic(() => import("../components/map"), { ssr: false });
 
@@ -29,7 +23,9 @@ const Main: NextPage = () => {
 
   const handlePositionUpdate = async (lat: number, long: number) => {
     updatePosition({ lat, long });
+    console.log(lat);
     const res = await fetch(`/api/restaurants?lat=${lat}&lng=${long}`);
+    console.log(res);
     const data = await res.json();
     updateRestaurants(data.response.restaurants);
   };
@@ -43,13 +39,20 @@ const Main: NextPage = () => {
   };
 
   return (
-    <Layout>
-      <div className="p-8">
-        <div className="flex justify-evenly p-8">
-          <p>
-            The best place to find <i>Decent</i> tea.
-          </p>
-        </div>
+    <div className="p-8">
+      <div className="flex justify-evenly p-8">
+        <p>
+          The best place to find <i>Decent</i> tea.
+        </p>
+      </div>
+      <div className="flex justify-evenly items-stretch columns-2">
+        {/* <div className="content-center px-8">
+          {results ? (
+            <div>Result list is here.</div>
+          ) : (
+            <TeaSearch updatePosition={handlePositionUpdate} />
+          )}
+        </div> */}
         {hideSearch ? (
           <div className="flex justify-evenly items-stretch columns-2 gap-1">
             <div className="justify-between relative">
@@ -79,7 +82,7 @@ const Main: NextPage = () => {
           </div>
         )}
       </div>
-    </Layout>
+    </div>
   );
 };
 

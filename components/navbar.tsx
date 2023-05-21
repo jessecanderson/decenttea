@@ -1,9 +1,9 @@
+"use client";
 import Link from "next/link";
 import LoginButton from "./login_button";
-import { useSession } from "next-auth/react";
+import { SessionProvider } from "next-auth/react";
 
 export default function Navbar() {
-  const { data: session } = useSession();
   return (
     <nav className="flex items-center justify-between flex-wrap bg-teal-500 p-6">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
@@ -32,23 +32,26 @@ export default function Navbar() {
       </div>
       <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
         <div className="text-sm lg:flex-grow">
-          <Link href="/main">
-            <a className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-              Find Tea
-            </a>
+          <Link
+            className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
+            href="/"
+          >
+            Find Tea
           </Link>
-          <Link href="/about">
-            <a className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-              About
-            </a>
+          <Link
+            className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
+            href="/about"
+          >
+            About
           </Link>
-          {session && (
-            <Link href="/account_page">
-              <a className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-                Account
-              </a>
+          {/* {session && (
+            <Link
+              className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
+              href="/account_page"
+            >
+              Account
             </Link>
-          )}
+          )} */}
         </div>
         <div>
           <LoginButton />

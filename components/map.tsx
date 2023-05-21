@@ -13,10 +13,10 @@ interface Props {
   restaurants: Restaurant[];
 }
 
-const Map: NextPage<Props> = (props) => {
+const Map: NextPage<Props> = ({ lat, long, restaurants }) => {
   let position: L.LatLngExpression = [0, 0];
-  if (props.lat != null || props.long != null) {
-    position = [props.lat, props.long];
+  if (lat != null || long != null) {
+    position = [lat, long];
   } else {
     position = [30.4383, -84.2807];
   }
@@ -30,7 +30,7 @@ const Map: NextPage<Props> = (props) => {
   useEffect(() => {
     // TODO: This is a hack to get the map to render correctly.
     // Figure out why I did this and how to get it working better?
-  }, [props.restaurants]);
+  }, [restaurants]);
 
   function ChangeView() {
     const map = useMap();
@@ -63,7 +63,7 @@ const Map: NextPage<Props> = (props) => {
           A pretty CSS3 popup. <br /> Easily customizable.
         </Popup>
       </Marker>
-      {props.restaurants.map((restaurant) => {
+      {restaurants.map((restaurant) => {
         return (
           <Marker
             key={restaurant.id}
