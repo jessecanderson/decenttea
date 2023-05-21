@@ -36,14 +36,17 @@ async function getRequest() {
     });
     client.$disconnect();
 
-    return NextResponse.json({
-      response: {
-        count: result.length,
-        restaurants: result,
+    return NextResponse.json(
+      {
+        response: {
+          count: result.length,
+          restaurants: result,
+        },
       },
-    });
+      { status: 200 }
+    );
   } catch (error) {
-    return NextResponse.json({ response: `${error}` });
+    return NextResponse.json({ response: `${error}` }, { status: 500 });
   }
 }
 
@@ -54,13 +57,16 @@ export async function POST(req: NextRequest) {
   const lng = searchParams.get("lng");
   try {
     const result = await postRequset();
-    return NextResponse.json({
-      response: {
-        restaurant: result,
+    return NextResponse.json(
+      {
+        response: {
+          restaurant: result,
+        },
       },
-    });
+      { status: 200 }
+    );
   } catch (error) {
-    return NextResponse.json({ response: `${error}` });
+    return NextResponse.json({ response: `${error}` }, { status: 500 });
   }
 
   async function postRequset() {

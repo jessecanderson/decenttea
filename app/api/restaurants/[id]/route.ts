@@ -13,9 +13,9 @@ export async function GET(req: NextRequest) {
 
   try {
     const result = await getRequest(Number(id));
-    NextResponse.json({ response: result });
+    NextResponse.json({ response: result }, { status: 200 });
   } catch (error) {
-    NextResponse.json({ response: `${error}` });
+    NextResponse.json({ response: `${error}` }, { status: 500 });
   }
 }
 

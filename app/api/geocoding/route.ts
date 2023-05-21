@@ -26,14 +26,17 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
   // const lat = data.results[0].geometry.location.lat;
   // const lng = data.results[0].geometry.location.lng;
 
-  return NextResponse.json({
-    response: {
-      address: `${address}`,
-      geolocation: {
-        lat: "30.466380",
-        lng: "84.297150",
+  return NextResponse.json(
+    {
+      response: {
+        address: `${address}`,
+        geolocation: {
+          lat: "30.466380",
+          lng: "84.297150",
+        },
+        // geolocation: { lat: `${lat}`, lng: `${lng}` },
       },
-      // geolocation: { lat: `${lat}`, lng: `${lng}` },
     },
-  });
+    { status: 200 }
+  );
 }
