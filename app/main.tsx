@@ -3,12 +3,10 @@
 import type { NextPage } from "next";
 import TeaSearch from "../components/tea_search";
 import dynamic from "next/dynamic";
-import Layout from "./layout";
 import styles from "../styles/main.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import { Address, State, Action, Position } from "../global/types";
 import { Restaurant } from "../global/restaurant";
 import AddRestaurant from "../components/add_restaurant";
 
@@ -23,7 +21,6 @@ const Main: NextPage = () => {
 
   const handlePositionUpdate = async (lat: number, long: number) => {
     updatePosition({ lat, long });
-    console.log(lat);
     const res = await fetch(`/api/restaurants?lat=${lat}&lng=${long}`);
 
     const data = await res.json();
@@ -31,7 +28,7 @@ const Main: NextPage = () => {
     updateRestaurants(data.response.restaurants);
   };
 
-  const addClickHandler = () => {
+  const toggleModalHandler = () => {
     udpateHideSearch(!hideSearch);
   };
 
@@ -46,7 +43,7 @@ const Main: NextPage = () => {
           The best place to find <i>Decent</i> tea.
         </p>
       </div>
-      <div className="flex justify-evenly items-stretch columns-2">
+      <div>
         {/* <div className="content-center px-8">
           {results ? (
             <div>Result list is here.</div>
@@ -55,17 +52,17 @@ const Main: NextPage = () => {
           )}
         </div> */}
         {hideSearch ? (
-          <div className="flex justify-evenly items-stretch columns-2 gap-1">
+          <div className="flex shrink-0 flex-row items-stretch gap-2">
             <div className="justify-between relative">
               <div className="absolute top-2 right-4">
                 <FontAwesomeIcon
                   size="lg"
                   className="cursor-pointer"
                   icon={faPlusCircle}
-                  onClick={addClickHandler}
+                  onClick={toggleModalHandler}
                 />
               </div>
-              <div className="content-center px-2">
+              <div className="content-center w-full px-2">
                 <TeaSearch updatePosition={handlePositionUpdate} />
               </div>
             </div>
@@ -79,7 +76,7 @@ const Main: NextPage = () => {
           </div>
         ) : (
           <div className="flex flex-col items-center">
-            <AddRestaurant callback={addClickHandler} />
+            <AddRestaurant toggleModal={toggleModalHandler} />
           </div>
         )}
       </div>
