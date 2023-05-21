@@ -46,13 +46,13 @@ const Main: NextPage = () => {
         </p>
       </div>
       <div className="flex justify-evenly items-stretch columns-2">
-        <div className="content-center px-8">
+        {/* <div className="content-center px-8">
           {results ? (
             <div>Result list is here.</div>
           ) : (
             <TeaSearch updatePosition={handlePositionUpdate} />
           )}
-        </div>
+        </div> */}
         {hideSearch ? (
           <div className="flex justify-evenly items-stretch columns-2 gap-1">
             <div className="justify-between relative">
