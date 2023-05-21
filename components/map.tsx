@@ -7,13 +7,13 @@ import icon from "leaflet/dist/images/marker-icon.png";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import { Restaurant } from "../global/restaurant";
 
-interface Props {
+interface MapProps {
   lat: number;
   long: number;
   restaurants: Restaurant[];
 }
 
-const Map: NextPage<Props> = ({ lat, long, restaurants }) => {
+const Map: NextPage<MapProps> = ({ lat, long, restaurants }) => {
   let position: L.LatLngExpression = [0, 0];
   if (lat != null || long != null) {
     position = [lat, long];
@@ -24,7 +24,7 @@ const Map: NextPage<Props> = ({ lat, long, restaurants }) => {
   const positionOne: L.LatLngExpression = [0, -1];
   const positionTwo: L.LatLngExpression = [0, 0];
 
-  const ZOOM = 15;
+  const ZOOM = 60;
   const size = 50;
 
   useEffect(() => {

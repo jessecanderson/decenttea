@@ -53,8 +53,10 @@ async function getRequest() {
 export async function POST(req: NextRequest) {
   const { searchParams } = req.nextUrl;
   const name = searchParams.get("name");
+
   const lat = searchParams.get("lat");
   const lng = searchParams.get("lng");
+
   try {
     const result = await postRequset();
     return NextResponse.json(

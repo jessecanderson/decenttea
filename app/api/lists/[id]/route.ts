@@ -1,13 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextRequest, NextResponse } from "next/server";
 import { List, PrismaClient } from "@prisma/client";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export async function GET(req: NextRequest, res: NextResponse) {
   const { id, restaurantId } = req.query;
-
-  console.log(`list id = ${id}, user id = ${restaurantId}`);
 
   switch (req.method) {
     case "GET":

@@ -15,8 +15,6 @@ export default async function handler(
 
   const listInfo: CreateList = body;
 
-  console.log(`${listInfo.userId}, ${listInfo.name}`);
-
   if (req.method != "POST") {
     res.status(405).json({ response: "Method not allowed" });
   }

@@ -1,7 +1,8 @@
 import { NextPage } from "next";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import { Address, Position } from "../global/types";
 import Card from "./card";
+import { STATES } from "../global/states";
 
 var startingAddress: Address = {
   streetOne: "",
@@ -46,14 +47,6 @@ const TeaSearch: NextPage<Props> = ({ updatePosition }) => {
           };
         });
         break;
-      case "state":
-        setAddress((preValues) => {
-          return {
-            ...preValues,
-            state: event?.target.value,
-          };
-        });
-        break;
       case "zip":
         setAddress((preValues) => {
           return {
@@ -65,17 +58,23 @@ const TeaSearch: NextPage<Props> = ({ updatePosition }) => {
     }
   };
 
+  const handleStateChange = (value: string) => {
+    setAddress((preValues) => {
+      return {
+        ...preValues,
+        state: value,
+      };
+    });
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    console.log("button clicked");
 
     const encodedAddress = encodeURI(
       `${address.streetOne}+${address.streetTwo},+${address.city},+${address.state},+${address.zip}`
     );
     const response = await fetch(`/api/geocoding?address=${encodedAddress}`);
     const data = await response.json();
-    console.log(data);
     updatePosition(
       data.response.geolocation.lat,
       data.response.geolocation.lng
@@ -88,64 +87,84 @@ const TeaSearch: NextPage<Props> = ({ updatePosition }) => {
         <h2 className="font-bold py-2">Search for tea near you.</h2>
         <div className="mb-4 grid grid-flow-col gap-4">
           <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
-            <div className="flex flex-col">
-              <label>Street Address 1</label>
+            <div className="flex flex-wrap -mx-3 mb-6 px-3">
+              <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                Street Address 1
+              </label>
               <input
                 type="text"
                 name="streetOne"
                 value={address.streetOne}
+                placeholder="1234 Main St"
                 onChange={handleAddressInputChange}
-                className="w-full max-w-lg px-2 border-2 rounded"
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               />
             </div>
-            <div className="flex flex-col">
-              <label>Street Address 2</label>
+            <div className="flex flex-wrap -mx-3 mb-6 px-3">
+              <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                Street Address 2
+              </label>
               <input
                 type="text"
                 name="streetTwo"
                 value={address.streetTwo}
+                placeholder="Apt 2B"
                 onChange={handleAddressInputChange}
-                className="w-full max-w-lg px-2 border-2 rounded"
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               />
             </div>
-            <div className="grid grid-cols-4 items-end content-center gap-2">
-              <div className="flex flex-col">
-                <label>City</label>
+            <div className="flex flex-wrap -mx-3 mb-2">
+              <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  City
+                </label>
                 <input
                   type="text"
                   name="city"
                   value={address.city}
                   onChange={handleAddressInputChange}
-                  className="px-2 border-2 rounded"
+                  placeholder="Albuquerque"
+                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 />
               </div>
-              <div className="flex flex-col">
-                <label>State</label>
-                <input
-                  type="text"
+              <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  State
+                </label>
+                <select
                   name="state"
                   value={address.state}
-                  onChange={handleAddressInputChange}
-                  className="px-2 border-2 rounded"
-                />
+                  onChange={(event) => handleStateChange(event.target.value)}
+                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                >
+                  {STATES.map((o) => (
+                    <option key={o.id} value={o.name}>
+                      {o.name}
+                    </option>
+                  ))}
+                </select>
               </div>
-              <div className="flex flex-col">
-                <label>Zip</label>
+              <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  Zip
+                </label>
                 <input
                   type="text"
                   name="zip"
                   value={`${address.zip}`}
                   onChange={handleAddressInputChange}
-                  className="px-2 border-2 rounded"
+                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 />
               </div>
-              <div className="w-full border-2 rounded-md p-2 text-center cursor-pointer hover:text-white hover:bg-teal-500">
-                <input
-                  className="cursor-pointer"
-                  type="submit"
-                  value="Search"
-                />
-              </div>
+            </div>
+            <div className="flex flex-wrap justify-end -mx-3 my-3 gap-2">
+              <button
+                className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 rounded md:w-1/4 px-3 mx-4 md:mb-0"
+                type="submit"
+                value="Search"
+              >
+                Search
+              </button>
             </div>
           </form>
         </div>
