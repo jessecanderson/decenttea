@@ -1,13 +1,13 @@
-import type { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { List, PrismaClient } from "@prisma/client";
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: Request, res: NextResponse) {
   const { id, restaurantId } = req.query;
 
   switch (req.method) {
     case "GET":
       const lists = await getListById();
-      res.status(200).json({ response: lists });
+      res.json({ response: lists });
       break;
     case "PUT":
       const updatedList = await addToList();
