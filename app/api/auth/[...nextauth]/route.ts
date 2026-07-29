@@ -1,34 +1,31 @@
-"use client";
-
 import NextAuth from "next-auth";
 import AppleProvider from "next-auth/providers/apple";
 import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
-import EmailProvider from "next-auth/providers/email";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export default NextAuth({
+const handler = NextAuth({
   providers: [
     // OAuth authentication providers...
     AppleProvider({
-      clientId: process.env.APPLE_ID,
-      clientSecret: process.env.APPLE_SECRET,
+      clientId: process.env.APPLE_ID!,
+      clientSecret: process.env.APPLE_SECRET!,
     }),
     FacebookProvider({
-      clientId: process.env.FACEBOOK_ID,
-      clientSecret: process.env.FACEBOOK_SECRET,
+      clientId: process.env.FACEBOOK_ID!,
+      clientSecret: process.env.FACEBOOK_SECRET!,
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
+      clientId: process.env.GOOGLE_ID!,
+      clientSecret: process.env.GOOGLE_SECRET!,
     }),
     GitHubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
+      clientId: process.env.GITHUB_ID!,
+      clientSecret: process.env.GITHUB_SECRET!,
       // https://docs.github.com/en/developers/apps/building-oauth-apps/scopes-for-oauth-apps
       // @ts-ignore
       scope: "read:user",
@@ -61,3 +58,5 @@ export default NextAuth({
   // TODO: remove this in production
   debug: true,
 });
+
+export { handler as GET, handler as POST };

@@ -1,8 +1,6 @@
-import { Session } from "inspector";
 import { Metadata } from "next";
-import { SessionProvider } from "next-auth/react";
-import { ReactNode } from "react";
 import Navbar from "../components/navbar";
+import AuthSessionProvider from "../components/session_provider";
 
 import "../styles/globals.css";
 
@@ -25,10 +23,10 @@ export default function RootLayout({
   return (
     <html>
       <body>
-        {/* <Header /> */}
-        <Navbar />
-        {children}
-        {/* <Footer /> */}
+        <AuthSessionProvider>
+          <Navbar />
+          {children}
+        </AuthSessionProvider>
       </body>
     </html>
   );
