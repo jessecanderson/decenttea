@@ -1,85 +1,58 @@
+import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-import { List, PrismaClient } from "@prisma/client";
 
-export async function GET(req: Request, res: NextResponse) {
-  const { id, restaurantId } = req.query;
+type RouteContext = { params: Promise<{ id: string }> };
 
-  switch (req.method) {
-    case "GET":
-      const lists = await getListById();
-      res.json({ response: lists });
-      break;
-    case "PUT":
-      const updatedList = await addToList();
-      res.status(200).json({ response: updatedList });
-      break;
-    case "DELETE":
-      const removedList = await removeFromList();
-      res.status(200).json({ response: removedList });
-      break;
-    default:
-      res.status(405).json({ response: "Method not allowed" });
+export async function GET(_req: NextRequest, { params }: RouteContext) {
+  const { id } = await params;
+  const client = new PrismaClient();
+
+  try {
+    const list = await client.list.findUnique({
+      where: { id: Number(id) },
+      include: { restaurants: true },
+    });
+    return NextResponse.json({ response: list });
+  } finally {
+    await client.$disconnect();
+  }
+}
+
+export async function PUT(req: NextRequest, { params }: RouteContext) {
+  return updateRestaurants(req, params, "connect");
+}
+
+export async function DELETE(req: NextRequest, { params }: RouteContext) {
+  return updateRestaurants(req, params, "disconnect");
+}
+
+async function updateRestaurants(
+  req: NextRequest,
+  params: RouteContext["params"],
+  action: "connect" | "disconnect"
+) {
+  const { id } = await params;
+  const restaurantId = req.nextUrl.searchParams.get("restaurantId");
+
+  if (!restaurantId) {
+    return NextResponse.json(
+      { response: "restaurantId is required" },
+      { status: 400 }
+    );
   }
 
-  async function getListById() {
-    try {
-      const client = new PrismaClient();
-      const result = await client.list.findUnique({
-        where: {
-          id: Number(id),
+  const client = new PrismaClient();
+  try {
+    const list = await client.list.update({
+      where: { id: Number(id) },
+      data: {
+        restaurants: {
+          [action]: { id: Number(restaurantId) },
         },
-        include: {
-          restaurants: true,
-        },
-      });
-      client.$disconnect();
-      return result;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async function addToList() {
-    try {
-      const client = new PrismaClient();
-      const result = await client.list.update({
-        where: {
-          id: Number(id),
-        },
-        data: {
-          restaurants: {
-            connect: {
-              id: Number(restaurantId),
-            },
-          },
-        },
-      });
-      client.$disconnect();
-      return result;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async function removeFromList() {
-    try {
-      const client = new PrismaClient();
-      const result = await client.list.update({
-        where: {
-          id: Number(id),
-        },
-        data: {
-          restaurants: {
-            disconnect: {
-              id: Number(restaurantId),
-            },
-          },
-        },
-      });
-      client.$disconnect();
-      return result;
-    } catch (error) {
-      throw error;
-    }
+      },
+    });
+    return NextResponse.json({ response: list });
+  } finally {
+    await client.$disconnect();
   }
 }

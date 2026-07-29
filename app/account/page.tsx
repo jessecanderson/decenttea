@@ -1,12 +1,12 @@
-import { NextPage } from "next";
-import Layout from "../layout";
+"use client";
+
 import { useSession, signIn, signOut } from "next-auth/react";
 
-const LoginPage: NextPage = () => {
+export default function LoginPage() {
   const { data: session } = useSession();
   if (session) {
     return (
-      <Layout>
+      <>
         <div className="flex flex-col items-center justify-center min-h-screen py-2 -mt-24 px-14 text-center">
           You are signed in as {session.user?.name} <br />
           Email Address: {session.user?.email} <br />
@@ -17,11 +17,11 @@ const LoginPage: NextPage = () => {
             Sign Out
           </button>
         </div>
-      </Layout>
+      </>
     );
   }
   return (
-    <Layout>
+    <>
       <div className="flex flex-col items-center justify-center min-h-screen py-2 -mt-24 px-14 text-center">
         Not signed in <br />
         <button
@@ -31,8 +31,6 @@ const LoginPage: NextPage = () => {
           Sign in
         </button>
       </div>
-    </Layout>
+    </>
   );
-};
-
-export default LoginPage;
+}

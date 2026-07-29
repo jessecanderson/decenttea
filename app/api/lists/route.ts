@@ -1,5 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { List, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
+import { NextRequest, NextResponse } from "next/server";
 
 interface CreateList {
   name: string;
@@ -7,17 +7,8 @@ interface CreateList {
   restaurantId: number;
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const { body } = req;
-
-  const listInfo: CreateList = body;
-
-  if (req.method != "POST") {
-    res.status(405).json({ response: "Method not allowed" });
-  }
+export async function POST(req: NextRequest) {
+  const listInfo = (await req.json()) as CreateList;
 
   const client = new PrismaClient();
   const result = await client.list.create({
@@ -31,10 +22,10 @@ export default async function handler(
       },
     },
   });
-  client.$disconnect();
-  res.status(200).json({
+  await client.$disconnect();
+  return NextResponse.json({
     response: {
       list: result,
     },
-  });
+  }, { status: 200 });
 }
